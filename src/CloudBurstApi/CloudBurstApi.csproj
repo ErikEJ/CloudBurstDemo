@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="ErikEJ.SqlClient.Extensions" Version="0.1.2-alpha" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 

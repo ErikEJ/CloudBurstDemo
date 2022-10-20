@@ -1,5 +1,6 @@
 @description('The admin user object id for the SQL Server')
-param sqlAdministratorSid string = '4aa40976-d7c6-47fa-b4ba-cf0621f5de0c'
+@secure()
+param sqlAdministratorSid string
 
 @description('The login name of the SQL admin user')
 param sqlAdministratorLogin string = 'eej@delegate.dk'
@@ -74,9 +75,6 @@ resource website 'Microsoft.Web/sites@2020-12-01' = {
       '${msi.id}': {}
     }
   }
-  tags: {
-    'hidden-related:${hostingPlan.id}': 'empty'
-  }
   properties: { 
     serverFarmId: hostingPlan.id
     siteConfig: {
@@ -95,7 +93,7 @@ resource connectionStrings 'Microsoft.Web/sites/config@2020-12-01' = {
   name: 'connectionstrings'
   properties: {
     DefaultConnection: {
-      value: 'Data Source=tcp:${sqlServer.properties.fullyQualifiedDomainName},1433;Initial Catalog=${databaseName};'
+      value: 'Data Source=tcp:${sqlServer.properties.fullyQualifiedDomainName},1433;Initial Catalog=${databaseName};Connection Timeout=60;Authentication=Active Directory Managed Identity;Encrypt=true;User Id=${msi.properties.clientId}'
       type: 'SQLAzure'
     }
   }

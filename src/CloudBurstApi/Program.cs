@@ -3,10 +3,12 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddApplicationInsightsTelemetry();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSqlDataSource(builder.Configuration.GetConnectionString("Database"));
+builder.Services.AddSqlDataSource(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 var app = builder.Build();
 
@@ -23,25 +25,19 @@ app.MapGet("/persons", async (SqlDataSource dataSource) =>
     await using var command = dataSource.CreateCommand(@"
 SELECT CAST((
 SELECT 
-    p.[Title]
-    ,p.[FirstName]
-    ,p.[MiddleName]
-    ,p.[LastName]
-    ,p.[Suffix]
-    ,e.[JobTitle]
-    ,[Territory.Name] = st.[Name]
-    ,[Territory.Group] = st.[Group]
-    ,s.[SalesQuota] AS [Sales.Quota]
-    ,s.[SalesYTD] AS [Sales.YTD]
-    ,s.[SalesLastYear] AS [Sales.LastYear]
-FROM [Sales].[SalesPerson] s
-    INNER JOIN [HumanResources].[Employee] e 
-    ON e.[BusinessEntityID] = s.[BusinessEntityID]
-	INNER JOIN [Person].[Person] p
-	ON p.[BusinessEntityID] = s.[BusinessEntityID]
-    LEFT OUTER JOIN [Sales].[SalesTerritory] st 
-    ON st.[TerritoryID] = s.[TerritoryID]
-FOR JSON PATH, ROOT('SalesPersons')
+    c.[Title]
+    ,c.[FirstName]
+    ,c.[MiddleName]
+    ,c.[LastName]
+    ,c.[Suffix]
+	,a.AddressLine1 AS [Address.Line1]
+	,a.AddressLine2 AS [Address.Line2]
+	,a.City AS [Address.City]
+	,a.PostalCode AS [Address.Postalcode]
+FROM [SalesLT].[Address] a
+    INNER JOIN [SalesLT].[CustomerAddress] ca ON ca.AddressID = a.AddressID
+	INNER JOIN [SalesLT].[Customer] c ON c.CustomerID = ca.CustomerID
+FOR JSON PATH, ROOT('Customers')
 ) 
 AS NVARCHAR(MAX)) AS JsonResult
 ");
