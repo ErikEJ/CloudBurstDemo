@@ -1,3 +1,7 @@
+$rg = "clouburst-demo1-rg"
+$miname = "cloudburst-erikej-demo-id"
+$sqlServer = "cloudburst-erikej-demo-sql"
+$sqlDatabase = "AdventureworksLT"
 
 function ConvertTo-Sid {
     param ([string]$appId)
@@ -7,12 +11,6 @@ function ConvertTo-Sid {
     }
     return "0x" + $byteGuid
 }
-
-$rg = "clouburst-demo1-rg"
-#TODO Improve naming
-$miname = "msijkj4th7r4umkk"
-$sqlServer = "sqlServerjkj4th7r4umkk"
-$sqlDatabase = "AdventureworksLT"
 
 # Get id, name and SQL accessToken of current identity
 $context = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile.DefaultContext

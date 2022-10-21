@@ -8,10 +8,11 @@ param sqlAdministratorLogin string = 'eej@delegate.dk'
 @description('Location for all resources.')
 param location string = resourceGroup().location
 
-var hostingPlanName = 'hostingplan${uniqueString(resourceGroup().id)}'
-var websiteName = 'cloudburstdemoeej'
-var sqlserverName = 'sqlServer${uniqueString(resourceGroup().id)}'
-var managedIdentityName = 'msi${uniqueString(resourceGroup().id)}'
+// https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations
+var hostingPlanName = 'cloudburst-erikej-demo-plan'
+var websiteName = 'cloudburst-erikej-demo-app'
+var sqlserverName = 'cloudburst-erikej-demo-sql'
+var managedIdentityName = 'cloudburst-erikej-demo-id'
 var databaseName = 'AdventureworksLT'
 
 // Azure SQL resources
@@ -27,7 +28,6 @@ resource sqlServer 'Microsoft.Sql/servers@2021-02-01-preview' = {
        sid: sqlAdministratorSid
        tenantId: tenant().tenantId
     }    
-    version: '12.0' 
   }
 }
 
@@ -52,6 +52,31 @@ resource allowAllWindowsAzureIps 'Microsoft.Sql/servers/firewallRules@2021-02-01
   }
 }
 
+resource myIp 'Microsoft.Sql/servers/firewallRules@2021-02-01-preview' = {
+  parent: sqlServer
+  name: 'AllowMyIP'
+  properties: {
+    endIpAddress: '1.1.1.1'
+    startIpAddress: '1.1.1.1'
+  }
+}
+
+// Managed identity
+resource msi 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
+  name: managedIdentityName
+  location: location
+}
+
+// Monitoring
+resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: 'AppInsights${websiteName}'
+  location: location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+  }
+}
+
 // Web App resources
 resource hostingPlan 'Microsoft.Web/serverfarms@2020-12-01' = {
   name: hostingPlanName
@@ -59,11 +84,6 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2020-12-01' = {
   sku: {
     name: 'F1'
   }
-}
-
-resource msi 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
-  name: managedIdentityName
-  location: location
 }
 
 resource website 'Microsoft.Web/sites@2020-12-01' = { 
@@ -96,14 +116,5 @@ resource connectionStrings 'Microsoft.Web/sites/config@2020-12-01' = {
       value: 'Data Source=tcp:${sqlServer.properties.fullyQualifiedDomainName},1433;Initial Catalog=${databaseName};Connection Timeout=60;Authentication=Active Directory Managed Identity;Encrypt=true;User Id=${msi.properties.clientId}'
       type: 'SQLAzure'
     }
-  }
-}
-
-resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: 'AppInsights${websiteName}'
-  location: location
-  kind: 'web'
-  properties: {
-    Application_Type: 'web'
   }
 }
