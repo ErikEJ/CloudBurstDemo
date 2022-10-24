@@ -1,3 +1,6 @@
-$rg = "clouburst-demo1-rg"
+$environment = "demo"
 
-New-AzResourceGroupDeployment -ResourceGroupName $rg -TemplateFile main.bicep -TemplateParameterFile parameters.json
+
+$ip = Invoke-RestMethod ipinfo.io/ip
+
+New-AzResourceGroupDeployment -ResourceGroupName "cloudburst-$($environment)-rg" -TemplateFile main.bicep -TemplateParameterFile parameters.json -environment $environment -publicip $ip

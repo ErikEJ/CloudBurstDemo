@@ -2,17 +2,23 @@
 @secure()
 param sqlAdministratorSid string
 
-@description('The login name of the SQL admin user')
+@description('The AAD login name of the SQL admin user')
 param sqlAdministratorLogin string = 'eej@delegate.dk'
 
 @description('Location for all resources.')
 param location string = resourceGroup().location
 
+@description('Environment name for all resources.')
+param environment string
+
+@description('Public IP address')
+param publicip string
+
 // https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations
-var hostingPlanName = 'cloudburst-erikej-demo-plan'
-var websiteName = 'cloudburst-erikej-demo-app'
-var sqlserverName = 'cloudburst-erikej-demo-sql'
-var managedIdentityName = 'cloudburst-erikej-demo-id'
+var hostingPlanName = 'cloudburst-erikej-${environment}-plan'
+var websiteName = 'cloudburst-erikej-${environment}-app'
+var sqlserverName = 'cloudburst-erikej-${environment}-sql'
+var managedIdentityName = 'cloudburst-erikej-${environment}-id'
 var databaseName = 'AdventureworksLT'
 
 // Azure SQL resources
@@ -56,8 +62,8 @@ resource myIp 'Microsoft.Sql/servers/firewallRules@2021-02-01-preview' = {
   parent: sqlServer
   name: 'AllowMyIP'
   properties: {
-    endIpAddress: '1.1.1.1'
-    startIpAddress: '1.1.1.1'
+    endIpAddress: publicip
+    startIpAddress: publicip
   }
 }
 

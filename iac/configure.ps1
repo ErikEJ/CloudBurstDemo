@@ -1,6 +1,9 @@
-$rg = "clouburst-demo1-rg"
-$miname = "cloudburst-erikej-demo-id"
-$sqlServer = "cloudburst-erikej-demo-sql"
+$environment = "demo"
+
+
+$rg = "cloudburst-$($environment)-rg"
+$miname = "cloudburst-erikej-$($environment)-id"
+$sqlServer = "cloudburst-erikej-$($environment)-sql"
 $sqlDatabase = "AdventureworksLT"
 
 function ConvertTo-Sid {
