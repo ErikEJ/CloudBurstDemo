@@ -30,7 +30,7 @@ Write-Host $appId
 
 # Give User Assigned Managed Identity SQL database access
 # You can use this syntax if AAD lookups are allowed
-# CREATE USER [$miname] FROM EXTERNAL_PROVIDER
+# CREATE USER [$miname] FROM EXTERNAL PROVIDER
 
 $sid = ConvertTo-Sid -appId $appId
 
