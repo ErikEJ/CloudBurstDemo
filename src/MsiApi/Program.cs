@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
  //< PackageReference Include = "ErikEJ.SqlClient.Extensions" Version = "0.1.2-alpha" />
  //< PackageReference Include = "Microsoft.ApplicationInsights.AspNetCore" Version = "2.21.0" />
 builder.Services.AddApplicationInsightsTelemetry();
+
 builder.Services.AddSqlDataSource(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 builder.Services.AddEndpointsApiExplorer();

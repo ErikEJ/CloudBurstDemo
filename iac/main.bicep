@@ -15,10 +15,10 @@ param environment string
 param publicip string
 
 // https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations
-var hostingPlanName = 'cloudburst-erikej-${environment}-plan'
-var websiteName = 'cloudburst-erikej-${environment}-app'
-var sqlserverName = 'cloudburst-erikej-${environment}-sql'
-var managedIdentityName = 'cloudburst-erikej-${environment}-id'
+var hostingPlanName = 'msi-erikej-${environment}-plan'
+var websiteName = 'msi-erikej-${environment}-app'
+var sqlserverName = 'msi-erikej-${environment}-sql'
+var managedIdentityName = 'msi-erikej-${environment}-id'
 var databaseName = 'AdventureworksLT'
 
 // Azure SQL resources
