@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- You NEED these (maybe wait for M.D.S. 5.2) -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
+    <PackageReference Include="Azure.Identity" Version="1.8.0" />
+	
+    <!-- Nice to have for this demo -->
     <PackageReference Include="ErikEJ.SqlClient.Extensions" Version="0.1.2-alpha" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />

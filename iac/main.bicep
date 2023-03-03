@@ -96,13 +96,14 @@ resource website 'Microsoft.Web/sites@2020-12-01' = {
   name: websiteName
   location: location
   identity: {
-    type: 'SystemAssigned, UserAssigned'
+    type: 'UserAssigned'
     userAssignedIdentities: {
       '${msi.id}': {}
     }
   }
   properties: { 
     serverFarmId: hostingPlan.id
+    keyVaultReferenceIdentity: msi.id
     siteConfig: {
       appSettings: [
           {
