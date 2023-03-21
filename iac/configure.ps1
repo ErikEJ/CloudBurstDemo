@@ -18,6 +18,8 @@ function ConvertTo-Sid {
 $context = [Microsoft.Azure.Commands.Common.Authentication.Abstractions.AzureRmProfileProvider]::Instance.Profile.DefaultContext
 $sqlToken = [Microsoft.Azure.Commands.Common.Authentication.AzureSession]::Instance.AuthenticationFactory.Authenticate($context.Account, $context.Environment, $context.Tenant.Id.ToString(), $null, [Microsoft.Azure.Commands.Common.Authentication.ShowDialog]::Never, $null, "https://database.windows.net").AccessToken
 
+Write-Host "Getting token"
+
 Write-Host $sqlToken
 
 # Get managed identity client (application) id
@@ -49,5 +51,7 @@ $Query = "IF NOT EXISTS(SELECT 1 FROM sys.database_principals WHERE name ='$mina
 $sqlInstance = $sqlServer + ".database.windows.net"
 
 # I needed to: Install-Module -Name SqlServer locally using PS Core
+
+Write-Host "Creating DB user"
 
 Invoke-Sqlcmd -ServerInstance $sqlInstance -Database $sqlDatabase -AccessToken $sqlToken -Query $Query

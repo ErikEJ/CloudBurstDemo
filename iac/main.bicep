@@ -15,10 +15,11 @@ param environment string
 param publicip string
 
 // https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations
-var hostingPlanName = 'msi-erikej-${environment}-plan'
+var hostingPlanName = 'msi-erikej-${environment}-asp'
 var websiteName = 'msi-erikej-${environment}-app'
 var sqlserverName = 'msi-erikej-${environment}-sql'
 var managedIdentityName = 'msi-erikej-${environment}-id'
+var appInsightsName = 'msi-erikej-${environment}-appi'
 var databaseName = 'AdventureworksLT'
 
 // Azure SQL resources
@@ -75,7 +76,7 @@ resource msi 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
 
 // Monitoring
 resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: 'AppInsights${websiteName}'
+  name: appInsightsName
   location: location
   kind: 'web'
   properties: {
