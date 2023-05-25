@@ -23,7 +23,6 @@ Write-Host "Getting token"
 Write-Host $sqlToken
 
 # Get managed identity client (application) id
-# I needed this on Azure DevOps build agent: Install-Module -Name Az.ManagedServiceIdentity -Scope CurrentUser -Force
 $mi = Get-AzUserAssignedIdentity -ResourceGroupName $rg -Name $miname
 $appId = $mi.ClientId
 
