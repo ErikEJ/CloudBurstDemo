@@ -8,11 +8,11 @@
 
   <ItemGroup>
     <!-- You NEED these (maybe wait for M.D.S. 5.2) -->
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
-    <PackageReference Include="Azure.Identity" Version="1.8.2" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+    <PackageReference Include="Azure.Identity" Version="1.10.1" />
 	
     <!-- Nice to have for this demo -->
-    <PackageReference Include="ErikEJ.SqlClient.Extensions" Version="1.0.0-preview1" />
+    <PackageReference Include="ErikEJ.SqlClient.Extensions" Version="1.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
