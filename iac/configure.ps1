@@ -29,7 +29,7 @@ $appId = $mi.ClientId
 Write-Host $appId
 
 # Give User Assigned Managed Identity SQL database access
-# You can use this syntax if AAD lookups are allowed
+# You can use this syntax if Entra Id lookups are allowed
 # CREATE USER [$miname] FROM EXTERNAL PROVIDER
 
 $sid = ConvertTo-Sid -appId $appId
@@ -41,10 +41,6 @@ $Query = "IF NOT EXISTS(SELECT 1 FROM sys.database_principals WHERE name ='$mina
             IF IS_ROLEMEMBER('db_datareader','$miname') = 0
             BEGIN
                 ALTER ROLE db_datareader ADD MEMBER [$miname]
-            END
-            IF IS_ROLEMEMBER('db_datawriter','$miname') = 0
-            BEGIN
-                ALTER ROLE db_datawriter ADD MEMBER [$miname]
             END;"
 
 $sqlInstance = $sqlServer + ".database.windows.net"
