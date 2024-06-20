@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
 	
     <!-- Nice to have for this demo -->
-    <PackageReference Include="ErikEJ.SqlClient.Extensions" Version="1.0.3" />
+    <PackageReference Include="ErikEJ.SqlClient.Extensions" Version="1.0.4" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
