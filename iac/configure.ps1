@@ -45,7 +45,9 @@ $Query = "IF NOT EXISTS(SELECT 1 FROM sys.database_principals WHERE name ='$mina
 
 $sqlInstance = $sqlServer + ".database.windows.net"
 
-# I needed to: Install-Module -Name SqlServer locally using PS Core
+# I needed to run: 
+# Install-Module -Name SqlServer -Force
+# locally using PS Core
 
 Write-Host "Creating DB user"
 

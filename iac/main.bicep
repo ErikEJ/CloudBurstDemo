@@ -19,7 +19,6 @@ var hostingPlanName = 'msi-erikej-${environment}-asp'
 var websiteName = 'msi-erikej-${environment}-app'
 var sqlserverName = 'msi-erikej-${environment}-sql'
 var managedIdentityName = 'msi-erikej-${environment}-id'
-var appInsightsName = 'msi-erikej-${environment}-appi'
 var databaseName = 'AdventureworksLT'
 
 // Azure SQL resources
@@ -74,16 +73,6 @@ resource msi 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
   location: location
 }
 
-// Monitoring
-resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: appInsightsName
-  location: location
-  kind: 'web'
-  properties: {
-    Application_Type: 'web'
-  }
-}
-
 // Web App resources
 resource hostingPlan 'Microsoft.Web/serverfarms@2020-12-01' = {
   name: hostingPlanName
@@ -105,14 +94,6 @@ resource website 'Microsoft.Web/sites@2020-12-01' = {
   properties: { 
     serverFarmId: hostingPlan.id
     keyVaultReferenceIdentity: msi.id
-    siteConfig: {
-      appSettings: [
-          {
-             name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-             value: appInsights.properties.ConnectionString
-          }
-      ]
-    }
   }
 }
 

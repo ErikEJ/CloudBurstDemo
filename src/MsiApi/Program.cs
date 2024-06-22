@@ -3,10 +3,7 @@ using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// added two packages:
- //< PackageReference Include = "ErikEJ.SqlClient.Extensions" Version = "1.0.3" />
- //< PackageReference Include = "Microsoft.ApplicationInsights.AspNetCore" Version = "2.22.0" />
-builder.Services.AddApplicationInsightsTelemetry();
+//< PackageReference Include = "ErikEJ.SqlClient.Extensions" Version = "1.0.4" />
 
 builder.Services.AddSqlDataSource(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
