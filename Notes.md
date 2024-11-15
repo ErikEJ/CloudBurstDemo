@@ -17,13 +17,10 @@ Open PowerPoint
 
 
 DEMO:
- 
 
 Show empty demo resource group in Portal
 
-
 Start .\deploy.ps1
-
 
 Walk through bicep template
 
